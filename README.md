@@ -26,7 +26,7 @@ Structure
 ├── rbx1               # Source for Python application controlling the RBX1
 │   ├── controller     # Code for the controllers (motor, gripper)
 │   ├── ros            # Code for the UI that allow remote commands to be sent to RViz
-│   ├── threads        # Mostly the code for the bridge that allow communications between Python 2.7 and 3.5 through PyZMQ.
+│   ├── threads        # Mostly the code for the bridge that allow communications between Python 2.7 and 3.5
 │   ├── ui             # *.ui and compiled python for PyQT UI files.
 ├── LICENSE
 └── README.md
