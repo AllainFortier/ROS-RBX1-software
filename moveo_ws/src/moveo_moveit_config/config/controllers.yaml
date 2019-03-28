@@ -1,0 +1,18 @@
+controller_list:
+ - name: rbx1_arm_controller
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory
+   default: true
+   joints:
+     - Joint_1
+     - Joint_2
+     - Joint_3
+     - Joint_4
+     - Joint_5
+     - Joint_6
+ - name: gripper_controller
+   action_ns: gripper_action
+   type: GripperCommand
+   default: true
+   joints:
+     - Joint_Grip_Servo

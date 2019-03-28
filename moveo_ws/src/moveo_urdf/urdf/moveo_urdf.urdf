@@ -1,0 +1,763 @@
+<robot
+  name="moveo_urdf">
+  <link
+    name="base_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link_1">
+    <inertial>
+      <origin
+        xyz="9.04997110390271E-05 -0.11835886489477 -1.03110880117219E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.59870477698065" />
+      <inertia
+        ixx="0.00889558917774968"
+        ixy="-9.83059909185543E-06"
+        ixz="-1.11290572659371E-07"
+        iyy="0.00628978480890219"
+        iyz="2.53377512999986E-10"
+        izz="0.0104429435232975" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0309"
+      rpy="-1.5708 -3.8551E-17 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link_1" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-2.0944"
+      upper="2.0944"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_2">
+    <inertial>
+      <origin
+        xyz="-0.0752469214973449 -0.000500019087013304 0.00801565213983907"
+        rpy="0 0 0" />
+      <mass
+        value="1.79157969898053" />
+      <inertia
+        ixx="0.00352142476542667"
+        ixy="-6.44382134269422E-05"
+        ixz="0.00133900684156435"
+        iyy="0.015584705901927"
+        iyz="6.30277961531298E-06"
+        izz="0.0160835270899943" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_2"
+    type="revolute">
+    <origin
+      xyz="0 -0.20101 0"
+      rpy="-3.7985E-15 -0.11192 1.5708" />
+    <parent
+      link="Link_1" />
+    <child
+      link="Link_2" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-2.2"
+      upper="2.2"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_3">
+    <inertial>
+      <origin
+        xyz="-0.023523909117978 -0.000262425638498542 0.0293343651247101"
+        rpy="0 0 0" />
+      <mass
+        value="0.657902225276796" />
+      <inertia
+        ixx="0.00143523552046151"
+        ixy="5.67208849821963E-06"
+        ixz="0.000616952504524279"
+        iyy="0.00196412953468847"
+        iyz="-7.12192573745459E-06"
+        izz="0.00115362138792626" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_3"
+    type="revolute">
+    <origin
+      xyz="-0.21989 0 0.023345"
+      rpy="-3.138 1.0089 0.0028034" />
+    <parent
+      link="Link_2" />
+    <child
+      link="Link_3" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.0944"
+      upper="2.0944"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_4">
+    <inertial>
+      <origin
+        xyz="-0.000480737416575283 -0.112984441555406 -0.000795364680788613"
+        rpy="0 0 0" />
+      <mass
+        value="0.262000579378337" />
+      <inertia
+        ixx="0.000528509489468703"
+        ixy="5.97380313581293E-06"
+        ixz="1.89930990415442E-05"
+        iyy="0.000284758336308065"
+        iyz="8.46523202702657E-06"
+        izz="0.0006021862445562" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_4"
+    type="revolute">
+    <origin
+      xyz="-0.043107 -0.00047146 0.054003"
+      rpy="-0.91055 -0.14511 -1.3867" />
+    <parent
+      link="Link_3" />
+    <child
+      link="Link_4" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3.14159"
+      upper="3.14159"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_5">
+    <inertial>
+      <origin
+        xyz="0.00035860029323162 0.000462370431148607 0.0012074660441439"
+        rpy="0 0 0" />
+      <mass
+        value="0.129980261281605" />
+      <inertia
+        ixx="6.97993885726989E-05"
+        ixy="-5.95275086351691E-08"
+        ixz="7.69507223431339E-07"
+        iyy="8.40300167150342E-05"
+        iyz="7.6448541105621E-07"
+        izz="7.060027819932E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_5"
+    type="revolute">
+    <origin
+      xyz="0 -0.157 0"
+      rpy="1.5654 1.3362 3.1361" />
+    <parent
+      link="Link_4" />
+    <child
+      link="Link_5" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.00713"
+      upper="2.00713"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_6">
+    <inertial>
+      <origin
+        xyz="-3.64212066061853E-09 0.0199999999996755 4.35396996234516E-11"
+        rpy="0 0 0" />
+      <mass
+        value="0.00201061929829747" />
+      <inertia
+        ixx="2.7612505029952E-07"
+        ixy="1.31945770970693E-16"
+        ixz="2.64697796016969E-23"
+        iyy="1.60849543863798E-08"
+        iyz="2.07579092561171E-19"
+        izz="2.76125050299521E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_6"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.0095"
+      rpy="-1.5708 -1.214E-15 1.5692" />
+    <parent
+      link="Link_5" />
+    <child
+      link="Link_6" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14159"
+      upper="3.14159"
+      effort="0"
+      velocity="0.2" />
+  </joint>
+  <link
+    name="Link_Gripper">
+    <inertial>
+      <origin
+        xyz="0.0144880330223051 0.0207918931252273 0.0465067040652264"
+        rpy="0 0 0" />
+      <mass
+        value="0.0321023588672998" />
+      <inertia
+        ixx="9.36130788952155E-06"
+        ixy="-2.09719874613005E-08"
+        ixz="7.20375545414964E-08"
+        iyy="1.49516550450015E-05"
+        iyz="-1.25070144104161E-07"
+        izz="1.13986305198369E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Gripper.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Gripper.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Grippper"
+    type="fixed">
+    <origin
+      xyz="-0.0148522442394708 0.00482931437037815 0.0202321887443363"
+      rpy="-1.5707962336435 0.000305207132015297 0.000305207160447832" />
+    <parent
+      link="Link_6" />
+    <child
+      link="Link_Gripper" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="Link_Grip_Servo">
+    <inertial>
+      <origin
+        xyz="-0.000594334300579258 0.005983834364434 0.00631487709029044"
+        rpy="0 0 0" />
+      <mass
+        value="0.00497129327522806" />
+      <inertia
+        ixx="9.20870244901648E-07"
+        ixy="4.69154879147571E-11"
+        ixz="1.26120295947165E-07"
+        iyy="1.14024663144967E-06"
+        iyz="-5.07455228682936E-10"
+        izz="2.49488890628528E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Servo.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Servo.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Grip_Servo"
+    type="revolute">
+    <origin
+      xyz="0.0288442213189702 0.0147280634416684 0.0521488006817585"
+      rpy="-9.78475925314596E-13 0.147046128957204 -4.52061409598828E-11" />
+    <parent
+      link="Link_Gripper" />
+    <child
+      link="Link_Grip_Servo" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="0"
+      velocity="1" />
+  </joint>
+  <link
+    name="Link_Tip_Servo">
+    <inertial>
+      <origin
+        xyz="-0.00687374723770617 0.00580780363510508 0.0279590371014581"
+        rpy="0 0 0" />
+      <mass
+        value="0.0104818096913555" />
+      <inertia
+        ixx="4.08347146641829E-06"
+        ixy="-2.81245202430779E-10"
+        ixz="6.13523728266486E-07"
+        iyy="4.0136353887785E-06"
+        iyz="1.4485165977E-09"
+        izz="5.56766974307777E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Tip_Servo.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Tip_Servo.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Tip_Servo"
+    type="continuous">
+    <origin
+      xyz="-0.00610696516498432 -5.00001000001971E-05 0.03952347753678"
+      rpy="2.80583764371945E-17 -0.147046129464605 -1.12233505748778E-16" />
+    <parent
+      link="Link_Grip_Servo" />
+    <child
+      link="Link_Tip_Servo" />
+    <axis
+      xyz="0 -1 0" />
+     <mimic joint="Joint_Grip_Servo" multiplier="-1" offset="0"/>
+  </joint>
+  <link
+    name="Link_Grip_Servo_Arm">
+    <inertial>
+      <origin
+        xyz="-0.000103223626561066 0.00675801833847722 0.0187976491011368"
+        rpy="0 0 0" />
+      <mass
+        value="0.00173989739580927" />
+      <inertia
+        ixx="3.43670095248073E-07"
+        ixy="7.90270100637066E-12"
+        ixz="1.86120661607953E-09"
+        iyy="3.43299019904848E-07"
+        iyz="-1.37302465326624E-09"
+        izz="1.16944532672955E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Servo_Arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Servo_Arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Grip_Servo_Arm"
+    type="continuous">
+    <origin
+      xyz="0.021868 0.013928 0.072163"
+      rpy="-9.6792E-13 -5.074E-10 -4.5063E-11" />
+    <parent
+      link="Link_Gripper" />
+    <child
+      link="Link_Grip_Servo_Arm" />
+    <axis
+      xyz="0 -1 0" />
+    <mimic joint="Joint_Grip_Servo" multiplier="1" offset="0"/>
+  </joint>
+  <link
+    name="Link_Grip_Idle">
+    <inertial>
+      <origin
+        xyz="-0.00634757711609413 -0.00298384858865508 0.000395237409143823"
+        rpy="0 0 0" />
+      <mass
+        value="0.00498016375528581" />
+      <inertia
+        ixx="2.25141752744145E-07"
+        ixy="-5.10672634206311E-10"
+        ixz="-1.89202637077747E-08"
+        iyy="1.1358426994906E-06"
+        iyz="3.16054597956422E-11"
+        izz="9.40852361525839E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Idle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Idle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Grip_Idle"
+    type="revolute">
+    <origin
+      xyz="0.00086097 0.017728 0.052166"
+      rpy="3.1416 1.518 -6.3368E-11" />
+    <parent
+      link="Link_Gripper" />
+    <child
+      link="Link_Grip_Idle" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="1.57"
+      effort="0"
+      velocity="0" />
+    <mimic joint="Joint_Grip_Servo" multiplier="-1" offset="0"/>
+  </joint>
+  <link
+    name="Link_Tip_Idle">
+    <inertial>
+      <origin
+        xyz="0.00695662732466618 0.00580776868603466 0.0279346725972899"
+        rpy="0 0 0" />
+      <mass
+        value="0.0104817582171299" />
+      <inertia
+        ixx="4.07981789913299E-06"
+        ixy="2.73246757803913E-10"
+        ixz="-6.23772844990472E-07"
+        iyy="4.01358546139554E-06"
+        iyz="1.42084640005264E-09"
+        izz="5.6036556496829E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Tip_Idle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Tip_Idle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Tip_Idle"
+    type="continuous">
+    <origin
+      xyz="-0.039996 0.00305 0"
+      rpy="-3.1416 1.518 5.2565E-15" />
+    <parent
+      link="Link_Grip_Idle" />
+    <child
+      link="Link_Tip_Idle" />
+    <axis
+      xyz="0 -1 0" />
+    <mimic joint="Joint_Grip_Idle" multiplier="-1" offset="0"/>
+  </joint>
+  <link
+    name="Link_Grip_Idle_Arm">
+    <inertial>
+      <origin
+        xyz="-0.00099272734528677 0.00675801833847731 0.0187717010221374"
+        rpy="0 0 0" />
+      <mass
+        value="0.00173989739580927" />
+      <inertia
+        ixx="3.42750579739968E-07"
+        ixy="7.28737451245267E-11"
+        ixz="1.75463766178195E-08"
+        iyy="3.43299019904854E-07"
+        iyz="-1.37111216478893E-09"
+        izz="1.2613968775406E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Idle_Arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://moveo_urdf/meshes/Link_Grip_Idle_Arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_Grip_Idle_Arm"
+    type="continuous">
+    <origin
+      xyz="0.0078729 0.013928 0.072162"
+      rpy="-9.6792E-13 -5.074E-10 -4.5063E-11" />
+    <parent
+      link="Link_Gripper" />
+    <child
+      link="Link_Grip_Idle_Arm" />
+    <axis
+      xyz="0 -1 0" />
+    <mimic joint="Joint_Grip_Idle" multiplier="1" offset="0"/>
+  </joint>
+</robot>
