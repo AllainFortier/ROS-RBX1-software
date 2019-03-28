@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import qApp
 import robot_arm
 from controller import stepper_motor
 from controller.status import L6470StatusMask, L6480StatusMask, L6470Status, L6480Status
-from threads.ReceiverBridge import ReceiverBridge
+from threads.zmq_bridge import ReceiverBridge
 from ui.mainwindow import Ui_MainWindow
 
 
