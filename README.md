@@ -11,13 +11,14 @@ Requirements
 
 Structure
 ----------------------
-.
+```bash
 ├── demo               # Some example files for demonstration.
 ├── docs               # Documentation files (mostly example of ROS packets)
 ├── moveo_ws           # ROS workspace location.
 ├── rbx1               # Source for Python application controlling the RBX1
 ├── LICENSE
 └── README.md
+```
 
 How to start
 ----------------------
