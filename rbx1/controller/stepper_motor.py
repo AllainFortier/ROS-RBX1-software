@@ -104,10 +104,9 @@ class MotorController(Motor):
         return steps / self.gear_ratio * (2 * math.pi) / self.micro_steps_revolution
 
     def getPosition(self):
-        if self.inverted:
-            return -Motor.getPosition(self)
-        else:
-            return Motor.getPosition(self)
+        # if self.inverted:
+        #    return -Motor.getPosition(self)
+        return Motor.getPosition(self)
 
     @property
     def micro_steps_revolution(self):

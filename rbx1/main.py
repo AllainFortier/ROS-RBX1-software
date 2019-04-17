@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
-import RPi.GPIO as GPIO
+try:
+    from Queue import Queue
+except ImportError:
+    from queue import Queue
+
 import json
-import Queue
-from Queue import Queue
+
+from PyQt5.QtWidgets import QApplication
+import RPi.GPIO as GPIO
+
 from robot_arm import RobotArm
 from control_station import ControlStation
-from PyQt5.QtWidgets import QApplication
-
 from threads.joint_state_publisher import JointStatePublisher
 
 

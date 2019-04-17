@@ -15,8 +15,8 @@ class RobotArm:
 
         # Create and configure joints and gripper from config file
         self.joints = self.loader.create_motors(config_file)
-        # self.pwm = self.loader.create_gripper(config_file)
-        # self.gripper = Gripper(self.pwm)
+        self.pwm = self.loader.create_gripper(config_file)
+        self.gripper = Gripper(self.pwm)
 
     def execute_movement(self, trajectory):
         """
@@ -32,6 +32,7 @@ class RobotArm:
                 motor.execute_movement_radian(vel, acc)
 
             delay = point.time_from_start.secs + point.time_from_start.nsecs * 1e-9
+            self.print_debug_position()
             while time.time() - start_time < delay:
                 continue  # Poll while we wait for time to pass.
 
@@ -58,7 +59,7 @@ class RobotArm:
             motor.softStop()
 
     def print_debug_position(self):
-        """targets = []
+        targets = []
         currents = []
         diff = []
 
@@ -69,21 +70,19 @@ class RobotArm:
 
         print('Current: {}'.format(currents))
         print('Target: {}'.format(targets))
-        print('Error: {}'.format(diff))"""
-        pass
+        print('Error: {}'.format(diff))
 
     def update(self):
         for motor in self.joints:
-            pass
-            # motor.update()
+            motor.update()
 
     def go_home(self):
         for joint in self.joints:
             joint.goHome()
 
-    #def print_status(self):
-    #    for joint in self.joints:
-    #        print(joint)
+    def print_status(self):
+        for joint in self.joints:
+            print(joint)
 
     def exit(self):
         self.loader.cleanup()
@@ -100,6 +99,6 @@ class RobotArm:
     def positions(self):
         positions = []
         for i in self.motors:
-            positions.append(i.convert_steps_to_rad(i.getPosition()))  # Get position return microsteps so convert
-
+            # positions.append(i.convert_steps_to_rad(i.getPosition()))  # Get position return microsteps so convert
+            positions.append(0)
         return positions

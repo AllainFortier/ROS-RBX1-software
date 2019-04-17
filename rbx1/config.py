@@ -1,7 +1,9 @@
+from Slush.Devices.L6470Registers import *
+
 from controller.stepper_motor import MotorController
 import RPi.GPIO as GPIO
 
-
+import time
 class ConfigLoader:
 
     def __init__(self):
@@ -19,10 +21,10 @@ class ConfigLoader:
             motor = self._create_motor(motor_config)
 
             motor.resetDev()
-            #self._apply_current(motor, motor_config)
-            #self._apply_mechanical_factors(motor, motor_config)
+            self._apply_current(motor, motor_config)
+            self._apply_mechanical_factors(motor, motor_config)
             
-            motors.append(motor) 
+            motors.append(motor)
 
         return motors
 
@@ -45,7 +47,7 @@ class ConfigLoader:
         motor.micro_steps = config['microstepping']
         motor.setMicroSteps(motor.micro_steps)
 
-        motor.setLowSpeedOpt(1)
+        motor.setLowSpeedOpt(0)
 
         motor.inverted = config.get('inverted', False)
 
@@ -62,6 +64,9 @@ class ConfigLoader:
             config['acc_current'],
             config['dec_current']
         )
+
+        motor.setThresholdSpeed(50)  # TODO Confirm values
+        print("ST_SLP {}".format(motor.getParam(ST_SLP)))
 
         motor.setOverCurrent(config['overcurrent'])
 

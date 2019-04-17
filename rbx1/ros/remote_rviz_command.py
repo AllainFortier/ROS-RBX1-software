@@ -144,6 +144,8 @@ class ManualControl(QtWidgets.QMainWindow):
         y = float(self.ui.plainTextEdit_Y.toPlainText())
         z = float(self.ui.plainTextEdit_Z.toPlainText())
 
+        self.group.set_start_state_to_current_state()
+
         self.group.set_position_target([x, y, z])
         print("Set Position Target ({:.4f}, {:.4f}, {:.4f})".format(x, y, z))
 
@@ -180,6 +182,7 @@ class ManualControl(QtWidgets.QMainWindow):
 
     def set_pose_target(self):
         pose_goal = geometry_msgs.msg.Pose()
+        self.group.set_start_state_to_current_state()
 
         x = float(self.ui.plainTextEdit_X.toPlainText())
         y = float(self.ui.plainTextEdit_Y.toPlainText())
@@ -215,6 +218,7 @@ class ManualControl(QtWidgets.QMainWindow):
         quat = quaternion_from_euler(roll, pitch, yaw)
 
         # Sets the targets for the arm group
+        self.group.set_start_state_to_current_state()
         self.group.set_orientation_target(quat)
 
         self.group.go(wait=True)
@@ -258,6 +262,7 @@ class ManualControl(QtWidgets.QMainWindow):
         # self.group.set_random_target()
         pose = self.group.get_random_pose()
         self.group.set_pose_target(pose)
+        self.group.set_start_state_to_current_state()
 
         self.group.go(wait=False)
         # self.group.go(wait=True)
