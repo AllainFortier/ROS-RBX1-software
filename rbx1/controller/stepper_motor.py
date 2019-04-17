@@ -1,11 +1,13 @@
 import math
-import Slush
+
+from Slush import Motor
 
 
-class MotorController(Slush.Motor):
+class MotorController(Motor):
 
-    def __init__(self, motor_number: int, name: str):
-        Slush.Motor.__init__(self, motor_number)
+    def __init__(self, motor_number, name):
+        Motor.__init__(self, motor_number)
+
         self.name = name
         self._gear_ratio = 1
         self.index = motor_number
@@ -15,7 +17,7 @@ class MotorController(Slush.Motor):
         self.target_position = 0
         self.steps_per_revolution = 200
 
-    def execute_movement(self, velocity: float, acceleration: float):
+    def execute_movement(self, velocity, acceleration):
         """
         Will execute a movement at the specified velocity and acceleration
         :param velocity: Steps per seconds
@@ -32,7 +34,7 @@ class MotorController(Slush.Motor):
 
         self.run(direction, abs(velocity))
 
-    def execute_movement_radian(self, velocity: float, acceleration: float):
+    def execute_movement_radian(self, velocity, acceleration):
         """
         Will execute a movement at the specified velocity and acceleration
         :param velocity: Accepts the velocity in rad/s
@@ -54,9 +56,9 @@ class MotorController(Slush.Motor):
         if self.inverted:
             dir ^= 1
 
-        super().run(dir, spd)
+        Motor.run(self, dir, spd)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return "M:{} Dest:{} |P:{} |V:{}".format(
             self.name, self.target_position, self.getPosition(), self.getSpeed() / 67.106)
 
@@ -69,7 +71,7 @@ class MotorController(Slush.Motor):
     def move_to_desired(self):
         self.goTo(self.target_position)
 
-    def convert_rad_to_microsteps(self, angle: float):
+    def convert_rad_to_microsteps(self, angle):
         """
         Convert a value in rads to steps for step motor usage
         :param angle: in rads
@@ -77,7 +79,7 @@ class MotorController(Slush.Motor):
         """
         return int(angle * self.micro_steps_revolution / (2 * math.pi) * self.gear_ratio)
 
-    def convert_rad_to_steps(self, angle: float):
+    def convert_rad_to_steps(self, angle):
         """
         Convert a value in rads to steps for step motor usage
         :param angle: in rads
@@ -85,7 +87,7 @@ class MotorController(Slush.Motor):
         """
         return int(angle * self.steps_per_revolution / (2 * math.pi) * self.gear_ratio)
 
-    def convert_microsteps_to_rad(self, microsteps: int):
+    def convert_microsteps_to_rad(self, microsteps):
         """
         Convert a value in rads to steps for step motor usage
         :param microsteps: as int of microsteps to convert
@@ -93,13 +95,19 @@ class MotorController(Slush.Motor):
         """
         return microsteps / self.gear_ratio * (2 * math.pi) / self.steps_per_revolution
 
-    def convert_steps_to_rad(self, steps: int):
+    def convert_steps_to_rad(self, steps):
         """
         Convert a value in rads to steps for step motor usage
         :param steps: as int of steps to convert
         :return: rad angle
         """
         return steps / self.gear_ratio * (2 * math.pi) / self.micro_steps_revolution
+
+    def getPosition(self):
+        if self.inverted:
+            return -Motor.getPosition(self)
+        else:
+            return Motor.getPosition(self)
 
     @property
     def micro_steps_revolution(self):

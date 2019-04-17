@@ -15,8 +15,8 @@ class RobotArm:
 
         # Create and configure joints and gripper from config file
         self.joints = self.loader.create_motors(config_file)
-        self.pwm = self.loader.create_gripper(config_file)
-        self.gripper = Gripper(self.pwm)
+        # self.pwm = self.loader.create_gripper(config_file)
+        # self.gripper = Gripper(self.pwm)
 
     def execute_movement(self, trajectory):
         """
@@ -58,7 +58,7 @@ class RobotArm:
             motor.softStop()
 
     def print_debug_position(self):
-        targets = []
+        """targets = []
         currents = []
         diff = []
 
@@ -69,19 +69,21 @@ class RobotArm:
 
         print('Current: {}'.format(currents))
         print('Target: {}'.format(targets))
-        print('Error: {}'.format(diff))
+        print('Error: {}'.format(diff))"""
+        pass
 
     def update(self):
         for motor in self.joints:
-            motor.update()
+            pass
+            # motor.update()
 
     def go_home(self):
         for joint in self.joints:
             joint.goHome()
 
-    def print_status(self):
-        for joint in self.joints:
-            print(joint)
+    #def print_status(self):
+    #    for joint in self.joints:
+    #        print(joint)
 
     def exit(self):
         self.loader.cleanup()
@@ -94,3 +96,10 @@ class RobotArm:
         for motor in self.motors:
             motor.waitMoveFinish()
 
+    @property
+    def positions(self):
+        positions = []
+        for i in self.motors:
+            positions.append(i.convert_steps_to_rad(i.getPosition()))  # Get position return microsteps so convert
+
+        return positions

@@ -18,11 +18,11 @@ class ConfigLoader:
         for motor_config in config['Motors']:
             motor = self._create_motor(motor_config)
 
-            # motor.resetDev()
-            self._apply_current(motor, motor_config)
-            self._apply_mechanical_factors(motor, motor_config)
-
-            motors.append(motor)
+            motor.resetDev()
+            #self._apply_current(motor, motor_config)
+            #self._apply_mechanical_factors(motor, motor_config)
+            
+            motors.append(motor) 
 
         return motors
 
@@ -30,7 +30,7 @@ class ConfigLoader:
         print("Created motor [{}] at board id {}".format(config['name'], config['index']))
         return MotorController(config['index'], config['name'])
 
-    def _apply_mechanical_factors(self, motor: MotorController, config):
+    def _apply_mechanical_factors(self, motor, config):
         """
         Applies mechanical factors from config file such as:
         Gear ratio, steps per revolutions and microsteps mode
@@ -49,7 +49,7 @@ class ConfigLoader:
 
         motor.inverted = config.get('inverted', False)
 
-    def _apply_current(self, motor: MotorController, config):
+    def _apply_current(self, motor, config):
         """
         Applies electrical configuration to the motor
         :param motor: The motor to apply to

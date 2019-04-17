@@ -1,12 +1,16 @@
 import math
 import sys
+
 import moveit_commander
 import moveit_msgs
 import rospy
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtWidgets import qApp
 from geometry_msgs.msg import Quaternion, geometry_msgs
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
+
+from threads.joint_state_publisher import JointStatePublisher
 from ui.manualcommands import Ui_MainWindow
 
 
@@ -239,7 +243,8 @@ class ManualControl(QtWidgets.QMainWindow):
         self.group.set_pose_target(pose)
         print("Shift Orientation Initial ({:.4f}, {:.4f}, {:.4f})".format(euler[0], euler[1], euler[2]))
         print("Shift Orientation Target ({:.4f}, {:.4f}, {:.4f})".format(roll, pitch, yaw))
-        print("Shift Orientation Result ({:.4f}, {:.4f}, {:.4f})".format(euler_shifted[0], euler_shifted[1], euler_shifted[2]))
+        print("Shift Orientation Result ({:.4f}, {:.4f}, {:.4f})".format(euler_shifted[0], euler_shifted[1],
+                                                                         euler_shifted[2]))
 
         self.group.go(wait=True)
         # Calling `stop()` ensures that there is no residual movement
@@ -250,14 +255,15 @@ class ManualControl(QtWidgets.QMainWindow):
         self.group.clear_pose_targets()
 
     def set_random_target(self):
-        self.group.set_random_target()
+        # self.group.set_random_target()
+        pose = self.group.get_random_pose()
+        self.group.set_pose_target(pose)
 
-        self.group.go(wait=True)
+        self.group.go(wait=False)
+        # self.group.go(wait=True)
         # Calling `stop()` ensures that there is no residual movement
-        self.group.stop()
+        # self.group.stop()
 
-        # It is always good to clear your targets after planning with poses.
-        # Note: there is no equivalent function for clear_joint_value_targets()
         self.group.clear_pose_targets()
 
     def refresh_information(self):
@@ -314,10 +320,10 @@ class ManualControl(QtWidgets.QMainWindow):
     def print_status(self):
         pass
         """
-            print("=== Printing robot state")
+            print("=== printing robot state")
             print(robot.get_current_state())
     
-            print("=== Printing end effector pose")
+            print("=== printing end effector pose")
             print(group.get_current_pose("Link_5").pose)
             print(group.get_end_effector_link())
     
@@ -371,6 +377,7 @@ class ManualControl(QtWidgets.QMainWindow):
         group.clear_pose_targets()
         """
 
+
 class WaypointGenerator:
 
     def __init__(self):
@@ -378,4 +385,3 @@ class WaypointGenerator:
 
     def load_from_file(self, file):
         pass
-

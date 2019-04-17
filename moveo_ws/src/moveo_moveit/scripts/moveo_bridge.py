@@ -3,12 +3,14 @@
 """
 Really, only purpose of the bridge is to take information from Python 2.7 where ROS runs to Slush on Python 3
 """
+import os
 import time
 import rospy
+import sensor_msgs.msg
 import zmq
-from sensor_msgs.msg import JointState
-from control_msgs.msg import FollowJointTrajectoryAction, GripperCommandAction
+from control_msgs.msg import FollowJointTrajectoryAction, GripperCommandAction, FollowJointTrajectoryFeedback
 import actionlib
+from std_msgs.msg import Header
 
 
 class Bridge:
@@ -18,6 +20,11 @@ class Bridge:
 
     def __init__(self):
         rospy.init_node('rbx1_arm_controller', anonymous=True)
+
+        try:
+            os.makedirs('/tmp/feeds/')
+        except OSError:
+            print('Directory /tmp/feeds/ already exist.')
 
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.PUB)
@@ -29,8 +36,8 @@ class Bridge:
                                                                auto_start=False)
 
         self._gripper_server = actionlib.SimpleActionServer(self._goal_server_topic, GripperCommandAction,
-                                                         execute_cb=self._gripper_callback,
-                                                         auto_start=False)
+                                                            execute_cb=self._gripper_callback,
+                                                            auto_start=False)
 
         self._trajectory_server.start()
         self._gripper_server.start()

@@ -1,9 +1,7 @@
+import os
 
 import zmq
-import time
-import robot_arm
-import queue
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 
@@ -14,8 +12,14 @@ class ReceiverBridge(QtCore.QObject):
     _listener_topic = "/move_group/fake_controller_joint_states"
     _attached_arm = None
 
-    def __init__(self, sync_queue: queue.Queue, topic='', parent=None):
+    def __init__(self, sync_queue, topic='', parent=None):
         QtCore.QObject.__init__(self, parent)
+
+        try:
+            os.makedirs('/tmp/feeds/')
+        except OSError:
+            print('Directory /tmp/feeds/ already exist.')
+
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.SUB)
         self._protocol = 'ipc'
@@ -39,7 +43,6 @@ class ReceiverBridge(QtCore.QObject):
         self.running = True
 
         print("Starting monitoring topic {}".format(self.topic))
-        # self._socket.subscribe('')
         self._socket.subscribe(self.topic)
 
         while self.running:
@@ -66,3 +69,5 @@ class ReceiverBridge(QtCore.QObject):
         except zmq.ZMQError:
             print("No Block")
 
+    def quit(self):
+        self.running = False

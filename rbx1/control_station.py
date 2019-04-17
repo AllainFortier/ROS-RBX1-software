@@ -1,11 +1,8 @@
 import math
-import queue
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import qApp
 
-import robot_arm
-from controller import stepper_motor
 from controller.status import L6470StatusMask, L6480StatusMask, L6470Status, L6480Status
 from threads.zmq_bridge import ReceiverBridge
 from ui.mainwindow import Ui_MainWindow
@@ -13,7 +10,7 @@ from ui.mainwindow import Ui_MainWindow
 
 class ControlStation(QtWidgets.QMainWindow):
 
-    def __init__(self, robot_arm: robot_arm.RobotArm, trajectory_queue: queue.Queue, gripper_queue: queue.Queue):
+    def __init__(self, robot_arm, trajectory_queue, gripper_queue):
         super(ControlStation, self).__init__()
 
         self.robot_arm = robot_arm
@@ -185,13 +182,13 @@ class ControlStation(QtWidgets.QMainWindow):
         motors[4].goTo(motors[4].convert_rad_to_microsteps(math.radians(sliders[4].value())))
         motors[5].goTo(motors[5].convert_rad_to_microsteps(math.radians(sliders[5].value())))
 
-    def refresh_motor(self, motor: stepper_motor.MotorController):
+    def refresh_motor(self, motor):
         self.ui.plainTextEditPosition.setPlainText(str(motor.getPosition()))
         self.ui.plainTextEditSpeed.setPlainText(str(motor.getSpeed()))
         self.ui.plainTextEditStatus.setPlainText("{:016b}".format(motor.getStatus()))
         self.ui.textEditTarget.setText(str(motor.target_position))
 
-    def select_motor(self, item: QtWidgets.QListWidgetItem):
+    def select_motor(self, item):
         for motor in self.robot_arm.motors:
             if item.text() == motor.name:
                 self.selected_motor = motor

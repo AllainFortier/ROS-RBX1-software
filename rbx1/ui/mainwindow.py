@@ -373,7 +373,7 @@ class Ui_MainWindow(object):
         self.pushButtonGoHome.setObjectName("pushButtonGoHome")
         self.gridLayout_2.addWidget(self.pushButtonGoHome, 7, 1, 1, 1)
         self.horizontalLayout_2.addWidget(self.groupBox_2)
-        self.gridLayout.addWidget(self.frame, 0, 0, 2, 2)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 926, 25))
