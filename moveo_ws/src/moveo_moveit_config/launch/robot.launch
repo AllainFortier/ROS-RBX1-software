@@ -1,4 +1,4 @@
-<launch>
+<launch>sudo -E apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
   <!-- By default, we do not start a database (it can be large) -->
   <arg name="db" default="false" />
@@ -24,7 +24,7 @@
   </include>
 
   <!-- Prepares the remote machines to use -->
-  <arg name="remote_address" default="piarm" />
+  <arg name="remote_address" default="piarm.local" />
   <arg name="username" default="ubuntu" />
   <arg name="password" default="ubuntu" />
   <arg name="env-loader" default="/home/ubuntu/RBX1/setup_source.sh" />

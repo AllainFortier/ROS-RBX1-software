@@ -28,7 +28,7 @@ class ManualControl(QtWidgets.QMainWindow):
         self.robot = moveit_commander.RobotCommander()
         self.scene = moveit_commander.PlanningSceneInterface()
         self.group_name = "arm"
-        self.group = moveit_commander.MoveGroupCommander(self.group_name)
+        self.group = moveit_commander.MoveGroupCommander(self.group_name, ns="")
 
         self.group.set_goal_position_tolerance(0.05)
         self.group.set_goal_orientation_tolerance(0.05)
@@ -38,7 +38,7 @@ class ManualControl(QtWidgets.QMainWindow):
 
         # Prepares the gripper planning group
         self.gripper_name = "gripper"
-        self.group_gripper = moveit_commander.MoveGroupCommander(self.gripper_name)
+        # self.group_gripper = moveit_commander.MoveGroupCommander(self.gripper_name)
 
         self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                                             moveit_msgs.msg.DisplayTrajectory,

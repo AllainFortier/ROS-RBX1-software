@@ -9,6 +9,7 @@ import rospy
 import sensor_msgs.msg
 import zmq
 from control_msgs.msg import FollowJointTrajectoryAction, GripperCommandAction, FollowJointTrajectoryFeedback
+from moveit_msgs.msg import PlaceAction, PickupAction
 import actionlib
 from std_msgs.msg import Header
 
@@ -39,6 +40,12 @@ class Bridge:
                                                             execute_cb=self._gripper_callback,
                                                             auto_start=False)
 
+        # self._place_server = actionlib.SimpleActionServer("/place", PlaceAction,
+        #                                                   execute_cb=self.place_cb, auto_start=True)
+
+        # self._place_server = actionlib.SimpleActionServer("/pickup", PickupAction,
+        #                                                  execute_cb=self.place_cb, auto_start=True)
+
         self._trajectory_server.start()
         self._gripper_server.start()
 
@@ -60,6 +67,9 @@ class Bridge:
         self.publish_zmq(data)
 
         self._gripper_server.set_succeeded()  # TODO better handle
+
+    def place_cb(self):
+        pass
 
     def publish_zmq(self, data):
         self._socket.send_pyobj(data)

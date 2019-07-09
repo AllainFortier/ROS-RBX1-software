@@ -8,8 +8,6 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 class ReceiverBridge(QtCore.QObject):
 
     signal_data_received = pyqtSignal(str)
-
-    _listener_topic = "/move_group/fake_controller_joint_states"
     _attached_arm = None
 
     def __init__(self, sync_queue, topic='', parent=None):
@@ -18,7 +16,7 @@ class ReceiverBridge(QtCore.QObject):
         try:
             os.makedirs('/tmp/feeds/')
         except OSError:
-            print('Directory /tmp/feeds/ already exist.')
+            print('Info: Directory /tmp/feeds/ already exist.')
 
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.SUB)

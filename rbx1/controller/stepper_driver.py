@@ -108,6 +108,9 @@ class MotorController(Motor):
         #    return -Motor.getPosition(self)
         return Motor.getPosition(self)
 
+    def reset(self):
+        pass
+
     @property
     def micro_steps_revolution(self):
         return self.steps_per_revolution * self.micro_steps
@@ -123,5 +126,56 @@ class MotorController(Motor):
     @property
     def speed(self):
         return self.getSpeed()
+
+
+class PIDMotorController(MotorController):
+
+    def __init__(self, motor_number, name):
+        MotorController.__init__(self, motor_number, name)
+
+    def execute_movement(self, velocity, acceleration):
+        """
+        Will execute a movement at the specified velocity and acceleration
+        :param velocity: Steps per seconds
+        :param acceleration: Steps per seconds squared
+        :return: None
+        """
+        self.setAccel(abs(acceleration))
+        self.setDecel(abs(acceleration))
+
+        if velocity > 0:
+            direction = 1
+        else:
+            direction = 0
+
+        self.run(direction, abs(velocity))
+
+    def execute_movement_radian(self, velocity, acceleration):
+        """
+        Will execute a movement at the specified velocity and acceleration
+        :param velocity: Accepts the velocity in rad/s
+        :param acceleration: Accepts the acceleration in rad/s^2
+        :return: None
+        """
+        steps_velocity = self.convert_rad_to_steps(velocity)
+        steps_acceleration = self.convert_rad_to_steps(acceleration)
+
+        self.execute_movement(steps_velocity, steps_acceleration)
+
+    def run(self, dir, spd):
+        """
+        Override the base run method to implement the inverted property.
+        :param dir:
+        :param spd:
+        :return: None
+        """
+        if self.inverted:
+            dir ^= 1
+
+        Motor.run(self, dir, spd)
+
+    def __str__(self):
+        return "M:{} Dest:{} |P:{} |V:{}".format(
+            self.name, self.target_position, self.getPosition(), self.getSpeed() / 67.106)
 
 

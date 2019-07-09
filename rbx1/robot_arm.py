@@ -99,6 +99,6 @@ class RobotArm:
     def positions(self):
         positions = []
         for i in self.motors:
-            # positions.append(i.convert_steps_to_rad(i.getPosition()))  # Get position return microsteps so convert
-            positions.append(0)
+            positions.append(i.convert_steps_to_rad(i.getPosition()))  # Get position return microsteps so convert
+            # positions.append(0)
         return positions
