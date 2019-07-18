@@ -10,12 +10,17 @@
       "run_current": 78,
       "acc_current": 80,
       "dec_current": 80,
-      "overcurrent": 1125,
-      "gear_ratio": 4,
+      "overcurrent": 1875,
+      "gear_ratio": 10.67,
       "microstepping": 16,
       "steps_per_revolution": 200,
       "upper_limit": 2.0944,
-      "lower_limit": -2.0944
+      "lower_limit": -2.0944,
+      "pid": {
+        "kp": 0.010,
+        "kd": 0.010,
+        "ki": 0.000
+      }
     },
     {
       "name": "Dual Base",
@@ -26,28 +31,38 @@
       "acc_current": 55,
       "dec_current": 55,
       "overcurrent": 1875,
-      "gear_ratio": 5.5,
+      "gear_ratio": 5,
       "microstepping": 16,
       "steps_per_revolution": 200,
       "upper_limit": 1.8326,
       "lower_limit": -1.8326,
-      "inverted": false
+      "inverted": true,
+      "pid": {
+        "kp": 0.010,
+        "kd": 0.010,
+        "ki": 0.000
+      }
     },
     {
       "name": "Shoulder",
       "index": 2,
-      "max_speed": 300,
+      "max_speed": 200,
       "hold_current": 45,
       "run_current": 50,
       "acc_current": 55,
       "dec_current": 52,
       "overcurrent": 1875,
-      "gear_ratio": 22.5,
+      "gear_ratio": 21.5,
       "microstepping": 32,
       "steps_per_revolution": 200,
       "upper_limit": 2.0944,
       "lower_limit": -2.0944,
-      "inverted": true
+      "inverted": false,
+      "pid": {
+        "kp": 0.010,
+        "kd": 0.010,
+        "ki": 0.000
+      }
     },
     {
       "name": "Elbow",
@@ -57,12 +72,18 @@
       "run_current": 40,
       "acc_current": 45,
       "dec_current": 45,
-      "overcurrent": 9999,
+      "overcurrent": 2250,
       "gear_ratio": 1,
       "microstepping": 32,
       "steps_per_revolution": 200,
       "upper_limit": 3.14159,
-      "lower_limit": -3.14159
+      "lower_limit": -3.14159,
+      "inverted": true,
+      "pid": {
+        "kp": 0.035,
+        "kd": 0.015,
+        "ki": 0.000
+      }
     },
     {
       "name": "Wrist",
@@ -73,28 +94,38 @@
       "acc_current": 55,
       "dec_current": 55,
       "overcurrent": 1875,
-      "gear_ratio": 4.5,
+      "gear_ratio": 4.67,
       "microstepping": 32,
       "steps_per_revolution": 200,
       "upper_limit": 2.00713,
       "lower_limit": -2.00713,
-      "inverted": true
+      "inverted": false,
+      "pid": {
+        "kp": 0.010,
+        "kd": 0.010,
+        "ki": 0.000
+      }
     },
     {
       "name": "Wrist Rotation",
       "index": 5,
-      "max_speed": 250,
+      "max_speed": 150,
       "hold_current": 50,
-      "run_current": 65,
-      "acc_current": 70,
-      "dec_current": 70,
-      "overcurrent": 2250,
+      "run_current": 60,
+      "acc_current": 62,
+      "dec_current": 62,
+      "overcurrent": 3000,
       "gear_ratio": 1,
       "microstepping": 32,
       "steps_per_revolution": 200,
       "upper_limit": 3.14159,
       "lower_limit": -3.14159,
-      "inverted": true
+      "inverted": true,
+      "pid": {
+        "kp": 0.035,
+        "kd": 0.015,
+        "ki": 0.000
+      }
     },
     {
       "name": "Test Motor",
@@ -109,7 +140,12 @@
       "microstepping": 32,
       "steps_per_revolution": 200,
       "upper_limit": 3.14159,
-      "lower_limit": -3.14159
+      "lower_limit": -3.14159,
+      "pid": {
+        "kp": 0.010,
+        "kd": 0.010,
+        "ki": 0.000
+      }
     }
   ]
 }

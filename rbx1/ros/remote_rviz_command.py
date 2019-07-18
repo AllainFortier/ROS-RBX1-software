@@ -4,13 +4,11 @@ import sys
 import moveit_commander
 import moveit_msgs
 import rospy
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import qApp
 from geometry_msgs.msg import Quaternion, geometry_msgs
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
-from threads.joint_state_publisher import JointStatePublisher
 from ui.manualcommands import Ui_MainWindow
 
 
@@ -38,7 +36,7 @@ class ManualControl(QtWidgets.QMainWindow):
 
         # Prepares the gripper planning group
         self.gripper_name = "gripper"
-        # self.group_gripper = moveit_commander.MoveGroupCommander(self.gripper_name)
+        self.group_gripper = moveit_commander.MoveGroupCommander(self.gripper_name)
 
         self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                                             moveit_msgs.msg.DisplayTrajectory,
@@ -102,16 +100,18 @@ class ManualControl(QtWidgets.QMainWindow):
             self.ui.horizontalSliderJoint_2,
             self.ui.horizontalSliderJoint_1
         ]
+        try:
+            joint_goal[5] = math.radians(sliders[0].value())
+            joint_goal[4] = math.radians(sliders[1].value())
+            joint_goal[3] = math.radians(sliders[2].value())
+            joint_goal[2] = math.radians(sliders[3].value())
+            joint_goal[1] = math.radians(sliders[4].value())
+            joint_goal[0] = math.radians(sliders[5].value())
 
-        joint_goal[5] = math.radians(sliders[0].value())
-        joint_goal[4] = math.radians(sliders[1].value())
-        joint_goal[3] = math.radians(sliders[2].value())
-        joint_goal[2] = math.radians(sliders[3].value())
-        joint_goal[1] = math.radians(sliders[4].value())
-        joint_goal[0] = math.radians(sliders[5].value())
-
-        self.group.go(joint_goal)
-        self.group.stop()
+            self.group.go(joint_goal)
+            self.group.stop()
+        except IndexError:
+            pass
 
     def open_gripper(self):
         pass

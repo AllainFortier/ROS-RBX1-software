@@ -95,6 +95,8 @@ class ControlStation(QtWidgets.QMainWindow):
         self.ui.pushButtonOpenGripper.clicked.connect(self.open_gripper)
         self.ui.pushButtonCloseGripper.clicked.connect(self.close_gripper)
 
+        self.ui.actionShow_motor_plot.triggered.connect(self.robot_arm.plot_motor)
+
     def set_validators(self):
         pass
 
@@ -183,7 +185,7 @@ class ControlStation(QtWidgets.QMainWindow):
         motors[5].goTo(motors[5].convert_rad_to_microsteps(math.radians(sliders[5].value())))
 
     def refresh_motor(self, motor):
-        self.ui.plainTextEditPosition.setPlainText(str(motor.getPosition()))
+        self.ui.plainTextEditPosition.setPlainText(str(motor.physical_position))
         self.ui.plainTextEditSpeed.setPlainText(str(motor.getSpeed()))
         self.ui.plainTextEditStatus.setPlainText("{:016b}".format(motor.getStatus()))
         self.ui.textEditTarget.setText(str(motor.target_position))

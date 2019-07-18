@@ -1,6 +1,6 @@
 from Slush.Devices.L6470Registers import *
 
-from controller.stepper_driver import MotorController
+from controller.stepper_driver import PIDMotorController
 import RPi.GPIO as GPIO
 
 
@@ -30,7 +30,14 @@ class ConfigLoader:
 
     def _create_motor(self, config):
         print("Created motor [{}] at board id {}".format(config['name'], config['index']))
-        return MotorController(config['index'], config['name'])
+
+        controller = PIDMotorController(config['index'], config['name'])
+
+        pid = config.get('pid', None)
+        if pid:
+            self.set_controllers(controller, pid)
+
+        return controller
 
     def _apply_mechanical_factors(self, motor, config):
         """
@@ -48,6 +55,9 @@ class ConfigLoader:
         motor.setMicroSteps(motor.micro_steps)
 
         motor.setLowSpeedOpt(1)
+
+        motor.setAccel(200)  # TODO Confirm max accelerations
+        motor.setDecel(200)
 
         motor.inverted = config.get('inverted', False)
 
@@ -69,6 +79,12 @@ class ConfigLoader:
         print("ST_SLP {}".format(motor.getParam(ST_SLP)))
 
         motor.setOverCurrent(config['overcurrent'])
+
+    def set_controllers(self, motor, controller):
+        # Sets the motor controller PID factors
+        motor.pid.Kp = controller.get('kp', 0)
+        motor.pid.Kd = controller.get('kd', 0)
+        motor.pid.Ki = controller.get('ki', 0)
 
     def create_gripper(self, config):
         GPIO.setup(config['gripper_GPIO'], GPIO.OUT)
