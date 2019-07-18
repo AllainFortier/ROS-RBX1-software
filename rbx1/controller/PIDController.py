@@ -6,13 +6,13 @@ import time
 
 class PIDController:
 
-    def __init__(self, Kp=0.2, Kd=0, Ki=0):
+    def __init__(self, Kp=1, Kd=0, Ki=0):
 
         self._Kp = Kp
         self._Kd = Kd
         self._Ki = Ki
 
-        self._sample_time = 0
+        self._sample_time = 0.01
         self._current_time = time.time()
         self.last_time = self._current_time
 
@@ -29,6 +29,8 @@ class PIDController:
         # Windup Guard
         self._int_error = 0.0
         self._windup_guard = 20.0
+
+        self.allowed_error = 1
 
         self.reset()
 
@@ -75,7 +77,7 @@ class PIDController:
             self._output = self._PTerm + (self.Ki * self._ITerm) + (self.Kd * self._DTerm)
 
     def __str__(self):
-        return "PID- Target:{} |Feedback:{} |Err:{} |Out:{}".format(self.target_value, self._feedback, self._last_error, self.output)
+        return "PID Tgt:{:0.2f}| Fb:{:0.2f}| Er:{:0.2f} | Out:{:0.2f}".format(self.target_value, self._feedback, self._last_error, self.output)
 
     @property
     def Kp(self):
@@ -121,5 +123,18 @@ class PIDController:
     def output(self):
         return self._output
 
+    @property
+    def status(self):
+        if abs(self._last_error) <= self.allowed_error:
+            return True
+        else:
+            return False
 
+    @property
+    def error(self):
+        """
+        Returns the last error recorded within an update call.
+        :return:
+        """
+        return self._last_error
 
