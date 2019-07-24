@@ -46,7 +46,7 @@
     {
       "name": "Shoulder",
       "index": 2,
-      "max_speed": 200,
+      "max_speed": 225,
       "hold_current": 45,
       "run_current": 50,
       "acc_current": 55,
@@ -101,8 +101,8 @@
       "lower_limit": -2.00713,
       "inverted": false,
       "pid": {
-        "kp": 0.010,
-        "kd": 0.010,
+        "kp": 1.000,
+        "kd": 0.000,
         "ki": 0.000
       }
     },

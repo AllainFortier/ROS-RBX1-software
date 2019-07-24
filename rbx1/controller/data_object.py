@@ -3,31 +3,47 @@ Yes, I used to program Java and I don't put much more than one class in any modu
 """
 
 
-class MovementData:
-    """
-    This data object has the purpose of storing movement data. The arm receives the ROS data, stores in in this data
-    object then sends it to the motors to be executed. This is data only and no processing should be done at this level.
-    """
+class ROSFollowJointTrajectoryMessageWrapper:
 
-    def __init__(self, position, velocity, acceleration, time_from_start):
+    def __init__(self, message):
         """
-        Standard creation of the movement data object.
-        :param position: radians
-        :param velocity: radians/seconds
-        :param acceleration: radians/seconds**2
-        :param time_from_start: seconds
+        Pass the message received from ROS through the action server.
+        :param message:
         """
-        self.position = position
-        self.velocity = velocity
-        self.acceleration = acceleration
-        self._time_from_start = time_from_start
+        self.trajectory = message.trajectory
+        self.points = self.trajectory.points
+
+    def get_times(self):
+        """
+        Returns a list of the times from start for points in seconds.
+        :return:
+        """
+        ls = []
+        for point in self.points:
+            ls.append(point.time_from_start.secs + point.time_from_start.nsecs * 1e-9)
+
+        return ls
+
+    def get_joint_positions(self, id):
+        ls = []
+        for point in self.points:
+            ls.append(point.positions[id])
+
+    def get_joint_velocities(self, id):
+        ls = []
+        for point in self.points:
+            ls.append(point.velocities[id])
+
+    def get_joint_accelerations(self, id):
+        ls = []
+        for point in self.points:
+            ls.append(point.accelerations[id])
 
     @property
-    def time_from_start(self):
+    def joint_count(self):
         """
-        The time from start from the movement object. Reference point is 0 seconds.
-        :return: time from start in seconds
+        Returns how many joints are in the message
+        :return:
         """
-        return self._time_from_start
-
+        return len(self.trajectory.joint_names)
 

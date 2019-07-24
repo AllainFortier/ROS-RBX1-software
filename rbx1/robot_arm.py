@@ -1,10 +1,11 @@
 
-import Slush
 import time
+
+import Slush
 import matplotlib.pyplot as plt
-import numpy as np
+
 import config
-from controller.data_object import MovementData
+from controller.data_object import ROSFollowJointTrajectoryMessageWrapper
 from controller.gripper import Gripper
 
 
@@ -26,55 +27,39 @@ class RobotArm:
 
         self.fig, self.ax = plt.subplots()
 
-        self.tracked_motor = self.motors[3]
+        self.tracked_motor = self.motors[2]
 
-    def execute_movement(self, trajectory):
+    def execute_movement(self, goal):
         """
 
         :param trajectory:
         :return:
         """
         start_time = time.time()
-        next_point_dt = 0
 
-        self.x_history = []
-        self.history = []
+        self.x_history.clear()
+        self.history.clear()
 
-        for point, i in zip(trajectory.points, range(len(trajectory.points))):
-            # delay = point.time_from_start.secs + point.time_from_start.nsecs * 1e-9
-            time_from_start = time.time() - start_time  # point.time_from_start.secs + point.time_from_start.nsecs * 1e-9
+        wrap = ROSFollowJointTrajectoryMessageWrapper(goal)
+        end_time = wrap.get_times()[-1]
 
-            # See when next point starts
-            try:
-                next_point_dt = trajectory.points[i+1].time_from_start.secs + trajectory.points[i+1].time_from_start.nsecs * 1e-9
-            except IndexError:
-                print("No more points, finishing movement")  # No worries, no more points
+        for motor in self.motors:
+            motor.set_movement_data(wrap.get_times(), wrap.get_joint_positions(motor.index))
 
-            print("-----------------------------------------------------------------------------------------------------------------------------------------------------------")
-            print(i)
-            print(next_point_dt)
+        # Starts the update loop for the motors
+        while time.time() - start_time < (end_time + 1):  # TODO Better movement execution completion criteria
+            # Update motor positions, velocity and controllers
+            self.update(time.time() - start_time)
 
-            # For all motors, create MovementData object then provides information for movement to be executed
-            for motor, pos, vel, acc in zip(self.motors, point.positions, point.velocities, point.accelerations):
-                data = MovementData(pos, vel, acc, time_from_start)
-                motor.execute_movement(data)
+            # Record motor position and desired position to plot graph
+            self.record(time.time() - start_time,
+                        self.tracked_motor.physical_position,
+                        self.tracked_motor.target_position,
+                        self.tracked_motor.speed,
+                        self.tracked_motor.pid.error)
 
-            print(point.accelerations)
-
-            # self.print_debug_position()
-            while time.time() - start_time < next_point_dt:
-                # Update motor positions, velocity and controllers
-                self.update(time.time() - start_time, time.time() - start_time - time_from_start)
-
-                # Record motor position and desired position to plot graph
-                self.record(time.time() - start_time,
-                            self.tracked_motor.virtual_position,
-                            self.tracked_motor.target_position,
-                            self.tracked_motor.speed,
-                            self.tracked_motor.pid.error)
-
-                # So we don't burn the rpi
-                time.sleep(0.025)  # TODO Verify time to sleep
+            # So we don't burn the rpi
+            time.sleep(0.015)  # TODO Verify time to sleep
 
         # Confirms all movement is stopped
         self.soft_stop_arm()
@@ -113,10 +98,10 @@ class RobotArm:
         print('Target: {}'.format(targets))
         print('Error: {}'.format(diff))
 
-    def update(self, ctime, time):
+    def update(self, ctime):
         for motor in self.joints:
             try:
-                motor.update(ctime, time)
+                motor.update(ctime)
             except AttributeError:
                 pass  # No movement data object in motor most likely.
 
@@ -155,7 +140,7 @@ class RobotArm:
 
     def record(self, time, actual_position, target_position, error, velocity):
         self.x_history.append(time)
-        self.history.append([actual_position, target_position, error, velocity])
+        self.history.append([actual_position, target_position])
 
     @property
     def positions(self):
@@ -164,4 +149,29 @@ class RobotArm:
             positions.append(i.convert_steps_to_rad(i.virtual_position))  # Get position return microsteps so convert
             # positions.append(0)
         return positions
+
+
+class MovementComponent:
+    """
+    Takes ownership of all movement execution for the arm.
+    This includes movement home, path following movements and other general movements.
+    TODO All movement execution should be conducted in this component.
+    """
+
+    def __init__(self):
+        raise NotImplementedError()
+
+    def execute_movement(self):
+        """
+        Blocking call that will execute a movement and return once it is completed.
+        :return:
+        """
+        pass
+
+    def _update(self):
+        """
+        Called internally by the movement component.
+        :return:
+        """
+        pass
 

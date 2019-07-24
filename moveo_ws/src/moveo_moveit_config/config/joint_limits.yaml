@@ -14,17 +14,17 @@ joint_limits:
     max_acceleration: 0.48
   Joint_3:
     has_velocity_limits: true
-    max_velocity: 0.96
+    max_velocity: 0.12
     has_acceleration_limits: true
-    max_acceleration: 0.64
+    max_acceleration: 0.12
   Joint_4:
     has_velocity_limits: true
-    max_velocity: 1.2
+    max_velocity: 0.8
     has_acceleration_limits: true
     max_acceleration: 0.8
   Joint_5:
     has_velocity_limits: true
-    max_velocity: 1.2
+    max_velocity: 0.8
     has_acceleration_limits: true
     max_acceleration: 0.48
   Joint_6:

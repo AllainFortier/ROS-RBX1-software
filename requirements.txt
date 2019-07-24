@@ -1,3 +1,5 @@
 pyyaml
 matplotlib
 PyQt5
+scipy
+numpy

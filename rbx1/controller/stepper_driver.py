@@ -1,11 +1,9 @@
 import math
 
-from pprint import pprint
-
 from Slush import Motor
+from scipy import interpolate
 
 from controller.PIDController import PIDController
-from controller.data_object import MovementData
 
 
 class MotorController(Motor):
@@ -27,26 +25,21 @@ class MotorController(Motor):
         self.speed_average = []
         self.position_average = []
 
-        self.movement_data = None  # type: MovementData
-
-    def execute_movement(self, data):
+    def execute_movement(self, time, position):
         """
         Will execute a movement at the specified velocity and acceleration
         :param position:
-        :param dt:
-        :param velocity: Steps per seconds
-        :param acceleration: Steps per seconds squared
+        :param time:
         :return: None
         """
-        self.movement_data = data
-        velocity_steps = self.convert_rad_to_steps(data.velocity)
+        raise NotImplementedError()
 
-        if data.velocity > 0:
-            self.direction = 1
-        else:
-            self.direction = 0
+        # if data.velocity > 0:
+        #    self.direction = 1
+        # else:
+        #    self.direction = 0
 
-        self.run(self.direction, abs(velocity_steps))
+        # self.run(self.direction, abs(velocity_steps))
 
     def run(self, dir, spd):
         """
@@ -153,81 +146,56 @@ class PIDMotorController(MotorController):
         self.pid = PIDController()
         self.target_velocity = 0
 
-        self._debug_motor_monitor = 3
+        self._debug_motor_monitor = 2
 
-    def execute_movement(self, data):
+        self.interp = None
+
+    def execute_movement(self,  time, positions):
         """
-        Will execute a movement at the specified velocity and acceleration.
-        All values in radians.
+        Sets the data for a movement execution.
         :param data: 
         :return: None
         """
-        self.movement_data = data
+        self.interp = interpolate.interp1d(time, positions)
 
-        if self.index == self._debug_motor_monitor:
-            print("{}".format(str(data.position)))
-
-        self.set_desired_position(self.convert_rad_to_microsteps(data.position))
+        self.set_desired_position(self.convert_rad_to_microsteps(self.interp(0)))
         self.pid.target_value = self.target_position
 
-    def update(self, ctime, dt):
+    def update(self, ctime):
         """
         Method to update the PID feedback values
         :return: None
         """
-        # Taking velocity and acceleration values, compute the current desired position.
-        adjusted_position = self.get_interpolation_position(dt,
-                                                            self.movement_data.position,
-                                                            self.movement_data.velocity,
-                                                            self.movement_data.acceleration)
+        adjusted_position = self.interp(ctime)
 
         self.set_desired_position(self.convert_rad_to_microsteps(adjusted_position))
         self.pid.target_value = self.target_position
 
         self.pid.update(self.physical_position)
-
+        
         # Set motor velocity from PID output
         self.target_velocity += self.pid.output
-        self.set_motor_desired_velocity(self.target_velocity)  # PID output is the speed diff
 
         # Make the physical motor spin. Convert rads to steps/s at the latest minute.
         self.run(self.direction, abs(self.target_velocity))
 
         if self.index == self._debug_motor_monitor:
-            print("ctime {:.2f}s | dt {:.2f}s".format(ctime, dt))
-            print("{:.2f} | 0.5*{:.2f}*x**2 + {:.2f}*x + {:.2f}".format(adjusted_position,
-                                                                        self.movement_data.position,
-                                                                        self.movement_data.velocity,
-                                                                        self.movement_data.acceleration))
-            print("{} | {} | pos{:.2f}".format(self.name, str(self.pid), self.virtual_position))
+            print("ctime {:.2f}s".format(ctime))
+            print("{:.2f}".format(adjusted_position))
             print("curr speed {:.2f} | target speed {:.2f}".format(self.speed, self.target_velocity))
 
-    def get_interpolation_position(self, time, start_position, velocity, acceleration):
+    @property
+    def direction(self):
         """
-        Using the 1/2ax**2 + bx + x with x being in seconds, we find the desired position needed.
-        :param time: in seconds
-        :param start_position: in steps
-        :param velocity: in steps/s
-        :param acceleration: in steps/s**2
-        :return: The position where we should be at the defined time and position
-        """
-        position = (acceleration * time ** 2) / 2 + (velocity * time) + start_position
-        return position
-
-    def set_motor_desired_velocity(self, velocity):
-        """
-        Convenience method that adjust the turning direction of the motor depending on the velocity sign
-        then sets the target velocity.
-        :param velocity: in steps per seconds
+        Returns the direction the motors should spin regarding the sign of the velocity.
         :return:
         """
-        if velocity > 0:
-            self.direction = 1
+        if self.target_velocity > 0:
+            return 1
         else:
-            self.direction = 0
-
-        self.target_velocity = velocity
+            return 0
 
     def reset(self):
         self.pid.reset()
-        self.movement_data = None
+        self.interp = None
+        self.target_velocity = 0

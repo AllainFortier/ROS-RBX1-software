@@ -42,7 +42,7 @@ class ControlStation(QtWidgets.QMainWindow):
         self.thread_arm.start()
         self.thread_gripper.start()
 
-        self.timer_rate = 400
+        self.timer_rate = 750
         QtCore.QTimer.singleShot(self.timer_rate, self.refresh_data)
 
         self.populate_motors()
@@ -140,7 +140,7 @@ class ControlStation(QtWidgets.QMainWindow):
     def trajectory_data_received(self):
         print("Trajectory data received")
         data = self.trajectory_queue.get()
-        self.robot_arm.execute_movement(data.trajectory)
+        self.robot_arm.execute_movement(data)
 
     def gripper_command_received(self):
         print("Gripper command data received")
